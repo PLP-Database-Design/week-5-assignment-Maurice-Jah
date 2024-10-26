@@ -22,6 +22,41 @@ db.connect((err) => {
   console.log('Connected to mysql at id: ', db.threadId);
 });
 
+// GET METHOD
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+
+// Question 1. Retrieve all patients
+
+// app.get('/data', (req, res) => {
+//   // Retrieve data
+//   db.query('SELECT * FROM patients', (err, results) => {
+//     if (err) {
+//       console.log(err);
+//       res.status(500).send('Error Retrieving data');
+//     } else {
+//       res.render('data', { results: results });
+//     }
+//   });
+// });
+
+// For the providers
+// Question 2. Retrieve all providers
+app.get('/data', (req, res) => {
+  // Retrieve data
+  db.query(
+    'SELECT first_name, last_name, provider_specialty FROM providers;',
+    (err, results) => {
+      if (err) {
+        console.log(err);
+        res.status(500).send('Error Retrieving data');
+      } else {
+        res.render('data', { results: results });
+      }
+    }
+  );
+});
+
 // Start server
 app.listen(process.env.PORT, () => {
   console.log(`Listening on port ${process.env.PORT}`);
